@@ -22,7 +22,7 @@ router.post('/register', async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { id: user._id, username: user.username, email: user.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'supersecretkey_change_me',
       { expiresIn: '24h' }
     );
 
@@ -59,7 +59,7 @@ router.post('/login', async (req, res) => {
     // Generate token
     const token = jwt.sign(
       { id: user._id, username: user.username, email: user.email },
-      process.env.JWT_SECRET,
+      process.env.JWT_SECRET || 'supersecretkey_change_me',
       { expiresIn: '24h' }
     );
 

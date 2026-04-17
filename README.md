@@ -1,4 +1,4 @@
-# ⚡ Mini CRM — Client Lead Management System
+# Mini CRM — Client Lead Management System
 
 A full-stack Mini CRM built to manage incoming client leads from website contact forms. Track lead status, add follow-up notes, filter/search leads, and view analytics — all from a secure admin dashboard.
 
@@ -6,105 +6,57 @@ A full-stack Mini CRM built to manage incoming client leads from website contact
 
 ## ✨ Features
 
-- **🔐 Secure Admin Login** — JWT-based authentication
-- **📋 Lead Management** — Full CRUD (Create, Read, Update, Delete)
-- **🔄 Status Tracking** — New → Contacted → Converted pipeline
-- **📝 Follow-up Notes** — Add timestamped notes to each lead
-- **🔍 Search & Filter** — Search by name/email, filter by status/source
-- **📊 Analytics Dashboard** — Visual charts for lead distribution
-- **📱 Responsive Design** — Works on desktop, tablet, and mobile
-- **🎨 Premium Dark UI** — Glassmorphism design with smooth animations
+- 🔐 **Secure Admin Login** — JWT-based authentication
+- 📋 **Lead Management** — Full CRUD (Create, Read, Update, Delete)
+- 🔄 **Status Tracking** — New → Contacted → Converted pipeline
+- 📝 **Follow-up Notes** — Add timestamped notes to each lead
+- 🔍 **Search & Filter** — Search by name/email, filter by status/source
+- 📊 **Analytics Dashboard** — Visual charts for lead distribution
+- 📱 **Responsive Design** — Works on desktop, tablet, and mobile
+- 🎨 **Premium Dark UI** — Glassmorphism design with smooth animations
 
 ## 🛠️ Tech Stack
 
 | Layer | Technology |
-|-------|-----------|
-| Frontend | HTML, CSS, JavaScript |
-| Backend | Node.js, Express.js |
-| Database | MongoDB (in-memory via mongodb-memory-server) |
-| Auth | JWT + bcrypt |
+|-------|------------|
+| **Frontend** | HTML, CSS, JavaScript |
+| **Backend** | Node.js, Express.js |
+| **Database** | MongoDB (in-memory via mongodb-memory-server) |
+| **Auth** | JWT + bcrypt |
 
-## 🚀 Quick Start
+## 🚀 Deployment (Render)
 
-### 1. Clone the repository
-```bash
-git clone https://github.com/YOUR_USERNAME/mini-crm.git
-cd mini-crm
-```
+This app is ready to be deployed to **Render** in 2 minutes:
 
-### 2. Install dependencies
-```bash
-npm install
-```
+1.  **Push to GitHub**: (Already done!)
+2.  **Connect to Render**:
+    -   Go to [Render.com](https://render.com) and sign in.
+    -   Click **New +** > **Web Service**.
+    -   Connect your GitHub repository (`FUTURE_FS_02`).
+3.  **Configure**:
+    -   **Runtime**: `Node`
+    -   **Build Command**: `npm install`
+    -   **Start Command**: `npm start`
+4.  **Click Deploy!**
 
-### 3. Start the server
-```bash
-npm run dev
-```
+*Note: Since this uses an in-memory database, your data will reset whenever the server restarts. For permanent storage, connect a real MongoDB Atlas URI.*
 
-### 4. Open in browser
-```
-http://localhost:5000
-```
+## 💻 Local Setup
 
-### 5. Login with demo credentials
-```
-Email: admin@minicrm.com
-Password: admin123
-```
-
-> **Note:** No database setup required! The app uses an in-memory MongoDB instance that starts automatically. Sample data is seeded on every startup.
-
-## 📁 Project Structure
-
-```
-├── server/
-│   ├── config/db.js          # MongoDB in-memory connection
-│   ├── middleware/auth.js     # JWT authentication
-│   ├── models/Lead.js         # Lead data model
-│   ├── models/User.js         # Admin user model
-│   ├── routes/auth.js         # Login/register API
-│   ├── routes/leads.js        # Leads CRUD API
-│   ├── seeds/seed.js          # Sample data seeder
-│   └── server.js              # Express entry point
-├── client/
-│   ├── css/styles.css         # Design system
-│   ├── js/auth.js             # Auth logic
-│   ├── js/dashboard.js        # Dashboard logic
-│   ├── js/analytics.js        # Chart rendering
-│   ├── index.html             # Login page
-│   └── dashboard.html         # CRM dashboard
-├── package.json
-└── README.md
-```
-
-## 🔌 API Endpoints
-
-### Authentication
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/api/auth/register` | Create admin account |
-| POST | `/api/auth/login` | Login (returns JWT) |
-
-### Leads (Protected)
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| GET | `/api/leads` | List leads (supports `?search`, `?status`, `?source`, `?sort`) |
-| GET | `/api/leads/stats` | Get analytics data |
-| POST | `/api/leads` | Create new lead |
-| PUT | `/api/leads/:id` | Update lead |
-| POST | `/api/leads/:id/notes` | Add follow-up note |
-| DELETE | `/api/leads/:id` | Delete lead |
-
-## 💡 Future Improvements
-
-- [ ] Email notifications for new leads
-- [ ] Export leads to CSV
-- [ ] Role-based access (admin, sales rep, viewer)
-- [ ] Lead scoring system
-- [ ] Integration with external forms (Typeform, Google Forms)
-- [ ] Persistent database (MongoDB Atlas)
-
-## 📄 License
-
-MIT License — feel free to use this project for learning and portfolio purposes.
+1.  **Clone & Install**:
+    ```bash
+    npm install
+    ```
+2.  **Environment Setup**:
+    Create a `.env` file:
+    ```env
+    PORT=5000
+    JWT_SECRET=your_secret_key
+    ```
+3.  **Run**:
+    ```bash
+    npm run dev
+    ```
+4.  **Login**:
+    -   Email: `admin@minicrm.com`
+    -   Password: `admin123`
