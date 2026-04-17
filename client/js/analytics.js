@@ -99,8 +99,17 @@ function renderCharts(stats) {
     { label: 'Converted', value: stats.converted || 0 }
   ];
   const statusColors = ['#22d3ee', '#f59e0b', '#10b981'];
-  drawDonutChart('statusChart', statusData, statusColors);
-  renderLegend('statusLegend', statusData, statusColors);
+
+  // Render Dashboard Chart
+  if (document.getElementById('statusChart')) {
+    drawDonutChart('statusChart', statusData, statusColors);
+    renderLegend('statusLegend', statusData, statusColors);
+  }
+  // Render Analytics View Chart
+  if (document.getElementById('statusChart2')) {
+    drawDonutChart('statusChart2', statusData, statusColors);
+    renderLegend('statusLegend2', statusData, statusColors);
+  }
 
   const sourceMap = {};
   (stats.sourceStats || []).forEach(s => { sourceMap[s._id] = s.count; });
@@ -111,6 +120,15 @@ function renderCharts(stats) {
     { label: 'Other', value: sourceMap.other || 0 }
   ];
   const sourceColors = ['#3b82f6', '#8b5cf6', '#ec4899', '#64748b'];
-  drawBarChart('sourceChart', sourceData, sourceColors);
-  renderLegend('sourceLegend', sourceData, sourceColors);
+
+  // Render Dashboard Chart
+  if (document.getElementById('sourceChart')) {
+    drawBarChart('sourceChart', sourceData, sourceColors);
+    renderLegend('sourceLegend', sourceData, sourceColors);
+  }
+  // Render Analytics View Chart
+  if (document.getElementById('sourceChart2')) {
+    drawBarChart('sourceChart2', sourceData, sourceColors);
+    renderLegend('sourceLegend2', sourceData, sourceColors);
+  }
 }

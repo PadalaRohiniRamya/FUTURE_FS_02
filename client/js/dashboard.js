@@ -39,13 +39,18 @@ function setupNav() {
         view === 'dashboard' ? "Welcome back! Here's your lead overview." :
         view === 'leads' ? 'Manage and track all your leads.' : 'Visual insights into your leads.';
 
+      // Toggle search box (only for leads view)
+      const searchBox = document.querySelector('.search-box');
+      if (searchBox) searchBox.style.display = view === 'leads' ? 'flex' : 'none';
+
       // Show/Hide sections
       document.querySelectorAll('[data-section]').forEach(section => {
         section.style.display = section.dataset.section === view ? 'block' : 'none';
       });
 
       // Reload data if needed
-      if (view === 'dashboard' || view === 'analytics') loadStats();
+      if (view === 'dashboard') loadDashboard();
+      if (view === 'analytics') loadStats();
       if (view === 'leads') loadLeads();
     });
   });
@@ -59,7 +64,7 @@ function setupMobileMenu() {
 
 // ── LOAD DATA ──
 async function loadDashboard() {
-  await Promise.all([loadStats(), loadLeads()]);
+  await Promise.all([loadStats(), loadRecentLeads()]);
 }
 
 async function loadStats() {
@@ -83,33 +88,28 @@ async function loadStats() {
     }
     
     renderCharts(stats);
-    
-    // Also render secondary charts if in analytics view
-    if (document.getElementById('statusChart2')) {
-      const statusData = [
-        { label: 'New', value: stats.new || 0 },
-        { label: 'Contacted', value: stats.contacted || 0 },
-        { label: 'Converted', value: stats.converted || 0 }
-      ];
-      const statusColors = ['#22d3ee', '#f59e0b', '#10b981'];
-      drawDonutChart('statusChart2', statusData, statusColors);
-      renderLegend('statusLegend2', statusData, statusColors);
-
-      const sourceMap = {};
-      (stats.sourceStats || []).forEach(s => { sourceMap[s._id] = s.count; });
-      const sourceData = [
-        { label: 'Website', value: sourceMap.website || 0 },
-        { label: 'Referral', value: sourceMap.referral || 0 },
-        { label: 'Social', value: sourceMap.social || 0 },
-        { label: 'Other', value: sourceMap.other || 0 }
-      ];
-      const sourceColors = ['#3b82f6', '#8b5cf6', '#ec4899', '#64748b'];
-      drawBarChart('sourceChart2', sourceData, sourceColors);
-      renderLegend('sourceLegend2', sourceData, sourceColors);
-    }
   } catch (err) {
     console.error(err);
   }
+}
+
+async function loadRecentLeads() {
+  try {
+    const res = await fetch(`${LEADS_API}?sort=newest&limit=5`, { headers: getAuthHeaders() });
+    const leads = await res.json();
+    const tbody = document.getElementById('recentLeadsBody');
+    if (leads.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:20px;">No recent leads.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = leads.slice(0, 5).map(lead => `
+      <tr>
+        <td><span class="lead-name">${esc(lead.name)}</span></td>
+        <td><span class="badge badge-${lead.status}">● ${lead.status}</span></td>
+        <td style="font-size:12px;color:var(--text-muted)">${formatDate(lead.createdAt)}</td>
+      </tr>
+    `).join('');
+  } catch (err) { console.error(err); }
 }
 
 async function loadLeads() {
@@ -131,21 +131,20 @@ async function loadLeads() {
   } catch (err) {
     console.error(err);
     document.getElementById('leadsTableBody').innerHTML =
-      '<tr><td colspan="7" class="empty-state"><div class="icon">⚠️</div><h3>Error loading leads</h3></td></tr>';
+      '<tr><td colspan="5" class="empty-state"><div class="icon">⚠️</div><h3>Error loading leads</h3></td></tr>';
   }
 }
 
 function renderLeadsTable(leads) {
   const tbody = document.getElementById('leadsTableBody');
   if (leads.length === 0) {
-    tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="icon">📭</div><h3>No leads found</h3><p>Try adjusting your filters or add a new lead.</p></div></td></tr>';
+    tbody.innerHTML = '<tr><td colspan="5"><div class="empty-state"><div class="icon">📭</div><h3>No leads found</h3><p>Try adjusting your filters or add a new lead.</p></div></td></tr>';
     return;
   }
   tbody.innerHTML = leads.map(lead => `
     <tr>
-      <td><span class="lead-name">${esc(lead.name)}</span></td>
+      <td><span class="lead-name">${esc(lead.name)}</span><br><small style="color:var(--text-muted)">${formatDate(lead.createdAt)}</small></td>
       <td><span class="lead-email">${esc(lead.email)}</span></td>
-      <td>${esc(lead.phone || '—')}</td>
       <td><span class="source-badge">${esc(lead.source)}</span></td>
       <td>
         <select class="badge badge-${lead.status}" onchange="updateStatus('${lead._id}', this.value)" style="border:none;cursor:pointer;font-family:inherit;outline:none;">
@@ -154,7 +153,6 @@ function renderLeadsTable(leads) {
           <option value="converted" ${lead.status==='converted'?'selected':''}>● Converted</option>
         </select>
       </td>
-      <td style="font-size:12px;color:var(--text-muted)">${formatDate(lead.createdAt)}</td>
       <td>
         <div class="actions-cell">
           <button class="btn-icon" onclick="openNotes('${lead._id}')" title="Notes (${lead.notes?.length || 0})">📝</button>

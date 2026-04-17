@@ -62,7 +62,7 @@
         </div>
       </div>
 
-      <!-- DASHBOARD VIEW: stats + recent leads + charts -->
+      <!-- DASHBOARD VIEW: stats + recent leads summary + quick charts -->
       <div data-section="dashboard">
         <div class="stats-grid" id="statsGrid">
           <div class="stat-card">
@@ -87,25 +87,36 @@
           </div>
         </div>
 
-        <div class="charts-section" id="chartsSection">
-          <div class="chart-card">
-            <h3>Lead Status Distribution</h3>
-            <div class="chart-canvas-container">
-              <canvas id="statusChart" width="220" height="220"></canvas>
+        <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 24px; margin-top: 24px;">
+          <div class="table-container">
+            <div style="padding: 16px 20px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center;">
+              <h3 style="font-size: 16px; font-weight: 600;">Recent Leads</h3>
+              <button class="btn btn-secondary btn-sm" onclick="document.getElementById('nav-leads').click()">View All</button>
             </div>
-            <div class="chart-legend" id="statusLegend"></div>
+            <table class="leads-table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Status</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+              <tbody id="recentLeadsBody">
+                <tr><td colspan="3"><div class="loading-spinner"></div></td></tr>
+              </tbody>
+            </table>
           </div>
+          
           <div class="chart-card">
-            <h3>Leads by Source</h3>
-            <div class="chart-canvas-container">
-              <canvas id="sourceChart" width="300" height="220"></canvas>
+            <h3>Quick Status</h3>
+            <div class="chart-canvas-container" style="min-height: 180px;">
+              <canvas id="statusChart" width="180" height="180"></canvas>
             </div>
-            <div class="chart-legend" id="sourceLegend"></div>
           </div>
         </div>
       </div>
 
-      <!-- LEADS VIEW: filters + full table -->
+      <!-- LEADS VIEW: full table with all filters -->
       <div data-section="leads" style="display:none;">
         <div class="toolbar">
           <div class="filter-group">
@@ -137,45 +148,21 @@
               <tr>
                 <th>Name</th>
                 <th>Email</th>
-                <th>Phone</th>
                 <th>Source</th>
                 <th>Status</th>
-                <th>Date</th>
                 <th>Actions</th>
               </tr>
             </thead>
             <tbody id="leadsTableBody">
-              <tr><td colspan="7"><div class="loading-spinner"></div></td></tr>
+              <tr><td colspan="5"><div class="loading-spinner"></div></td></tr>
             </tbody>
           </table>
         </div>
       </div>
 
-      <!-- ANALYTICS VIEW: charts only -->
+      <!-- ANALYTICS VIEW: detailed charts -->
       <div data-section="analytics" style="display:none;">
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">📋</div>
-            <div class="stat-value" id="statTotal2">0</div>
-            <div class="stat-label">Total Leads</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">✨</div>
-            <div class="stat-value" id="statNew2">0</div>
-            <div class="stat-label">New</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">📞</div>
-            <div class="stat-value" id="statContacted2">0</div>
-            <div class="stat-label">Contacted</div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">✅</div>
-            <div class="stat-value" id="statConverted2">0</div>
-            <div class="stat-label">Converted</div>
-          </div>
-        </div>
-        <div class="charts-section">
+        <div class="charts-section" style="grid-template-columns: 1fr 1fr; margin-top: 0;">
           <div class="chart-card">
             <h3>Lead Status Distribution</h3>
             <div class="chart-canvas-container">
@@ -189,6 +176,25 @@
               <canvas id="sourceChart2" width="300" height="220"></canvas>
             </div>
             <div class="chart-legend" id="sourceLegend2"></div>
+          </div>
+        </div>
+        
+        <div class="stats-grid" style="margin-top: 24px;">
+          <div class="stat-card">
+            <div class="stat-value" id="statTotal2">0</div>
+            <div class="stat-label">Lifetime Leads</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statNew2">0</div>
+            <div class="stat-label">Pending Review</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statContacted2">0</div>
+            <div class="stat-label">In Negotiation</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="statConverted2">0</div>
+            <div class="stat-label">Closed Won</div>
           </div>
         </div>
       </div>
