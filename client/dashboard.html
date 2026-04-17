@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mini CRM Dashboard - Manage your client leads">
+  <title>Dashboard — Mini CRM</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+      <div class="brand">
+        <div class="brand-icon">⚡</div>
+        <div>
+          <h2>Mini CRM</h2>
+          <small>Lead Management</small>
+        </div>
+      </div>
+      <nav class="nav-menu">
+        <button class="nav-item active" data-view="dashboard" id="nav-dashboard">
+          <span class="icon">📊</span> Dashboard
+        </button>
+        <button class="nav-item" data-view="leads" id="nav-leads">
+          <span class="icon">👥</span> All Leads
+        </button>
+        <button class="nav-item" data-view="analytics" id="nav-analytics">
+          <span class="icon">📈</span> Analytics
+        </button>
+      </nav>
+      <div class="nav-bottom">
+        <div class="user-info">
+          <div class="user-avatar" id="userAvatar">A</div>
+          <div class="details">
+            <div class="name" id="userName">Admin</div>
+            <div class="email" id="userEmail">admin@minicrm.com</div>
+          </div>
+        </div>
+        <button class="nav-item" id="logoutBtn">
+          <span class="icon">🚪</span> Logout
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <button class="mobile-toggle" id="mobileToggle">☰</button>
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h1 id="pageTitle">Dashboard</h1>
+          <p id="pageSubtitle">Welcome back! Here's your lead overview.</p>
+        </div>
+        <div class="header-actions">
+          <div class="search-box">
+            <span class="icon">🔍</span>
+            <input type="text" id="searchInput" placeholder="Search leads...">
+          </div>
+          <button class="btn btn-primary btn-sm" id="addLeadBtn">+ New Lead</button>
+        </div>
+      </div>
+
+      <!-- DASHBOARD VIEW: stats + recent leads + charts -->
+      <div data-section="dashboard">
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card">
+            <div class="stat-icon">📋</div>
+            <div class="stat-value" id="statTotal">0</div>
+            <div class="stat-label">Total Leads</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✨</div>
+            <div class="stat-value" id="statNew">0</div>
+            <div class="stat-label">New</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📞</div>
+            <div class="stat-value" id="statContacted">0</div>
+            <div class="stat-label">Contacted</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-value" id="statConverted">0</div>
+            <div class="stat-label">Converted</div>
+          </div>
+        </div>
+
+        <div class="charts-section" id="chartsSection">
+          <div class="chart-card">
+            <h3>Lead Status Distribution</h3>
+            <div class="chart-canvas-container">
+              <canvas id="statusChart" width="220" height="220"></canvas>
+            </div>
+            <div class="chart-legend" id="statusLegend"></div>
+          </div>
+          <div class="chart-card">
+            <h3>Leads by Source</h3>
+            <div class="chart-canvas-container">
+              <canvas id="sourceChart" width="300" height="220"></canvas>
+            </div>
+            <div class="chart-legend" id="sourceLegend"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LEADS VIEW: filters + full table -->
+      <div data-section="leads" style="display:none;">
+        <div class="toolbar">
+          <div class="filter-group">
+            <select id="filterStatus">
+              <option value="all">All Status</option>
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="converted">Converted</option>
+            </select>
+            <select id="filterSource">
+              <option value="all">All Sources</option>
+              <option value="website">Website</option>
+              <option value="referral">Referral</option>
+              <option value="social">Social</option>
+              <option value="other">Other</option>
+            </select>
+            <select id="sortBy">
+              <option value="newest">Newest First</option>
+              <option value="oldest">Oldest First</option>
+              <option value="name">Name A-Z</option>
+              <option value="status">By Status</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="table-container" id="tableContainer">
+          <table class="leads-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Source</th>
+                <th>Status</th>
+                <th>Date</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="leadsTableBody">
+              <tr><td colspan="7"><div class="loading-spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- ANALYTICS VIEW: charts only -->
+      <div data-section="analytics" style="display:none;">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-icon">📋</div>
+            <div class="stat-value" id="statTotal2">0</div>
+            <div class="stat-label">Total Leads</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✨</div>
+            <div class="stat-value" id="statNew2">0</div>
+            <div class="stat-label">New</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">📞</div>
+            <div class="stat-value" id="statContacted2">0</div>
+            <div class="stat-label">Contacted</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-value" id="statConverted2">0</div>
+            <div class="stat-label">Converted</div>
+          </div>
+        </div>
+        <div class="charts-section">
+          <div class="chart-card">
+            <h3>Lead Status Distribution</h3>
+            <div class="chart-canvas-container">
+              <canvas id="statusChart2" width="220" height="220"></canvas>
+            </div>
+            <div class="chart-legend" id="statusLegend2"></div>
+          </div>
+          <div class="chart-card">
+            <h3>Leads by Source</h3>
+            <div class="chart-canvas-container">
+              <canvas id="sourceChart2" width="300" height="220"></canvas>
+            </div>
+            <div class="chart-legend" id="sourceLegend2"></div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Add/Edit Lead Modal -->
+  <div class="modal-overlay" id="leadModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Add New Lead</h2>
+        <button class="modal-close" id="modalClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <form id="leadForm">
+          <input type="hidden" id="leadId">
+          <div class="form-group">
+            <label for="leadName">Full Name *</label>
+            <input type="text" id="leadName" placeholder="e.g. John Doe" required>
+          </div>
+          <div class="form-group">
+            <label for="leadEmail">Email *</label>
+            <input type="email" id="leadEmail" placeholder="e.g. john@company.com" required>
+          </div>
+          <div class="form-group">
+            <label for="leadPhone">Phone</label>
+            <input type="text" id="leadPhone" placeholder="e.g. +1 555-0100">
+          </div>
+          <div class="form-group">
+            <label for="leadSource">Source</label>
+            <select id="leadSource">
+              <option value="website">Website</option>
+              <option value="referral">Referral</option>
+              <option value="social">Social Media</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="leadStatus">Status</label>
+            <select id="leadStatus">
+              <option value="new">New</option>
+              <option value="contacted">Contacted</option>
+              <option value="converted">Converted</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="modalCancelBtn">Cancel</button>
+        <button class="btn btn-primary btn-sm" id="modalSaveBtn">Save Lead</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notes Modal -->
+  <div class="modal-overlay" id="notesModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="notesTitle">Follow-up Notes</h2>
+        <button class="modal-close" id="notesClose">✕</button>
+      </div>
+      <div class="modal-body">
+        <div class="notes-list" id="notesList"></div>
+        <div class="form-group">
+          <label for="newNote">Add a Note</label>
+          <textarea id="newNote" rows="3" placeholder="Write a follow-up note..."></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary btn-sm" id="notesCancelBtn">Close</button>
+        <button class="btn btn-primary btn-sm" id="addNoteBtn">Add Note</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/auth.js"></script>
+  <script src="js/analytics.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+</html>

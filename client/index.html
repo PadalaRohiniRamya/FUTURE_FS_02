@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mini CRM - Client Lead Management System Login">
+  <title>Mini CRM — Login</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-card">
+      <div class="logo">
+        <h1>⚡ Mini CRM</h1>
+        <p>Client Lead Management System</p>
+      </div>
+      <div id="errorMsg" class="error-msg"></div>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" placeholder="admin@minicrm.com" required>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" placeholder="Enter your password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" id="loginBtn">Sign In</button>
+      </form>
+      <p style="text-align:center;margin-top:20px;font-size:12px;color:var(--text-muted)">
+        Demo: admin@minicrm.com / admin123
+      </p>
+    </div>
+  </div>
+  <script src="js/auth.js"></script>
+</body>
+</html>
