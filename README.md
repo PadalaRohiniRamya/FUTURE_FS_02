@@ -24,20 +24,18 @@ A full-stack Mini CRM built to manage incoming client leads from website contact
 | **Database** | MongoDB (in-memory via mongodb-memory-server) |
 | **Auth** | JWT + bcrypt |
 
-## 🚀 Deployment (Render)
+## 🚀 Deployment (One-Click)
 
-This app is ready to be deployed to **Render** in 2 minutes:
+Click the button below to deploy this app to **Render** instantly:
 
-1.  **Push to GitHub**: (Already done!)
-2.  **Connect to Render**:
-    -   Go to [Render.com](https://render.com) and sign in.
-    -   Click **New +** > **Web Service**.
-    -   Connect your GitHub repository (`FUTURE_FS_02`).
-3.  **Configure**:
-    -   **Runtime**: `Node`
-    -   **Build Command**: `npm install`
-    -   **Start Command**: `npm start`
-4.  **Click Deploy!**
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/PadalaRohiniRamya/FUTURE_FS_02)
+
+### Or Manual Steps:
+1.  Go to [Render.com](https://render.com) and sign in.
+2.  Click **New +** > **Web Service**.
+3.  Connect your GitHub repository (`FUTURE_FS_02`).
+4.  **Runtime**: `Node` | **Build Command**: `npm install` | **Start Command**: `npm start`
+5.  Click **Deploy!**
 
 *Note: Since this uses an in-memory database, your data will reset whenever the server restarts. For permanent storage, connect a real MongoDB Atlas URI.*
 
