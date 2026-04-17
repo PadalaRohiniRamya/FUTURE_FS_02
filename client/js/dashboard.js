@@ -175,6 +175,7 @@ async function updateStatus(id, status) {
     if (!res.ok) throw new Error('Update failed');
     showToast('Status updated!', 'success');
     loadDashboard();
+    loadLeads();
   } catch (err) {
     showToast(err.message, 'error');
   }
@@ -228,6 +229,7 @@ async function saveLead() {
     document.getElementById('leadModal').classList.remove('active');
     showToast(id ? 'Lead updated!' : 'Lead created!', 'success');
     loadDashboard();
+    loadLeads();
   } catch (err) {
     showToast(err.message, 'error');
   }
@@ -260,6 +262,7 @@ async function deleteLead(id) {
     if (!res.ok) throw new Error('Delete failed');
     showToast('Lead deleted', 'success');
     loadDashboard();
+    loadLeads();
   } catch (err) {
     showToast(err.message, 'error');
   }
